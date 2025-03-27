@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>合理的配慮シート作成ツール</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-4">
+  <div class="max-w-xl mx-auto bg-white p-6 rounded-2xl shadow">
+    <h1 class="text-2xl font-bold mb-4">合理的配慮シート作成ツール</h1>
+    <form id="supportForm" class="space-y-4">
+      <div>
+        <label class="block font-semibold">① 仕事中に困ることは何ですか？</label>
+        <textarea id="question1" class="w-full p-2 border rounded" rows="2"></textarea>
+      </div>
+      <div>
+        <label class="block font-semibold">② その困りごとはどんなときに起きやすいですか？</label>
+        <textarea id="question2" class="w-full p-2 border rounded" rows="2"></textarea>
+      </div>
+      <div>
+        <label class="block font-semibold">③ どんな配慮があると助かりますか？</label>
+        <textarea id="question3" class="w-full p-2 border rounded" rows="2"></textarea>
+      </div>
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">配慮シートを作成</button>
+    </form>
+
+    <div id="output" class="mt-6 hidden bg-blue-50 p-4 rounded">
+      <h2 class="text-xl font-bold mb-2">配慮シート</h2>
+      <p><strong>困りごと：</strong><span id="out1"></span></p>
+      <p><strong>起きやすい場面：</strong><span id="out2"></span></p>
+      <p><strong>必要な配慮：</strong><span id="out3"></span></p>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById("supportForm");
+    const output = document.getElementById("output");
+
+    form.addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      document.getElementById("out1").textContent = document.getElementById("question1").value;
+      document.getElementById("out2").textContent = document.getElementById("question2").value;
+      document.getElementById("out3").textContent = document.getElementById("question3").value;
+
+      output.classList.remove("hidden");
+    });
+  </script>
+</body>
+</html>
+
