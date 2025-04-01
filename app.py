@@ -3,6 +3,7 @@ import requests
 import os
 
 app = Flask(__name__)
+CORS(app, origins=["https://Mizuki429.github.io"])
 
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")  # 環境変数にAPIキーを設定しておくこと
 MODEL = "anthropic/claude-3-opus"
