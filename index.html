@@ -14,9 +14,14 @@
     <div class="flex justify-end mb-4">
       <button onclick="addToList()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">送信</button>
     </div>
+    
     <div class="mb-8">
-        <a class="text-gray-500 italic">困りごとリスト</a>
+      <h2 class="text-lg font-semibold mb-2">困りごとリスト</h2>
+      <ul id="list" class="list-disc pl-5 text-gray-700 space-y-1">
+        <!-- 入力された項目がここに追加される -->
+      </ul>
     </div>
+    
     <div class="flex justify-end">
       <button onclick="goToNextPage()" class="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition">確定</button>
     </div>
