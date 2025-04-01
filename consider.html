@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>配慮事項の提案</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white w-full max-w-3xl p-6 rounded-2xl shadow-xl border border-black">
+    <h2 class="text-xl font-bold mb-6">あなたに必要な配慮事項</h2>
+    <div id="results" class="space-y-4 text-gray-800">
+      <p class="text-sm text-gray-500">分析中です。少々お待ちください...</p>
+    </div>
+  </div>
+
+  <script>
+    const data = JSON.parse(localStorage.getItem("troubleWithReasons")) || [];
+    const resultsDiv = document.getElementById("results");
+    resultsDiv.innerHTML = "";
+
+    async function fetchSuggestion(trouble, reason) {
+      const response = await fetch("/ask", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ trouble, reason })
+      });
+
+      const result = await response.json();
+      return result.suggestion || "エラーが発生しました。";
+    }
+
+    async function processAll() {
+      for (const entry of data) {
+        if (!entry.hasReason || !entry.reason) continue;
+
+        const container = document.createElement("div");
+        container.className = "bg-gray-50 p-4 rounded-md border border-gray-300";
+
+        const title = document.createElement("h3");
+        title.className = "font-semibold mb-2";
+        title.textContent = `困りごと: ${entry.text}`;
+
+        const reason = document.createElement("p");
+        reason.className = "text-sm text-gray-600 mb-2";
+        reason.textContent = `原因: ${entry.reason}`;
+
+        const suggestion = document.createElement("div");
+        suggestion.textContent = "取得中...";
+
+        container.appendChild(title);
+        container.appendChild(reason);
+        container.appendChild(suggestion);
+        resultsDiv.appendChild(container);
+
+        try {
+          const responseText = await fetchSuggestion(entry.text, entry.reason);
+          suggestion.textContent = responseText;
+        } catch (e) {
+          suggestion.textContent = "取得中にエラーが発生しました。";
+        }
+      }
+    }
+
+    processAll();
+  </script>
+</body>
+</html>
+

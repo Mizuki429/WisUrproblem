@@ -18,10 +18,9 @@
   </div>
 
   <script>
-    // 仮の困りごとリスト（前ページからlocalStorageで受け取る）
     const troubles = JSON.parse(localStorage.getItem("troubleList")) || [];
-
     const problemListContainer = document.getElementById("problemList");
+    const reasons = [];
 
     troubles.forEach((item, index) => {
       const wrapper = document.createElement("div");
@@ -59,18 +58,26 @@
       wrapper.appendChild(reasonWrapper);
 
       problemListContainer.appendChild(wrapper);
+
+      // 保存用にオブジェクトとして管理
+      reasons.push({ text: item, hasReason: false, reason: "", input: reasonInput, checkbox: checkbox });
     });
 
     function goToNextPage() {
-      // localStorageのデータを削除
-      localStorage.removeItem("troubleList");
+      const result = reasons.map(entry => {
+        return {
+          text: entry.text,
+          hasReason: entry.checkbox.checked,
+          reason: entry.checkbox.checked ? entry.input.value.trim() : ""
+        };
+      });
+
+      // 最終ページ用に保存
+      localStorage.setItem("troubleWithReasons", JSON.stringify(result));
 
       // 次のページに遷移
-      window.location.href = "final.html"; // 次ページ（仮）
+      window.location.href = "consider.html";
     }
   </script>
 </body>
 </html>
-
-
-
