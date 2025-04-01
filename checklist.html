@@ -18,7 +18,7 @@
   </div>
 
   <script>
-    // 仮の困りごとリスト（後で前ページから受け取るように改良可能）
+    // 仮の困りごとリスト（前ページからlocalStorageで受け取る）
     const troubles = JSON.parse(localStorage.getItem("troubleList")) || [];
 
     const problemListContainer = document.getElementById("problemList");
@@ -62,10 +62,15 @@
     });
 
     function goToNextPage() {
-      // 必要に応じてデータ収集・保存
+      // localStorageのデータを削除
+      localStorage.removeItem("troubleList");
+
+      // 次のページに遷移
       window.location.href = "final.html"; // 次ページ（仮）
     }
   </script>
 </body>
 </html>
+
+
 
