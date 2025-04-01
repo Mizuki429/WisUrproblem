@@ -14,14 +14,12 @@
     <div class="flex justify-end mb-4">
       <button onclick="addToList()" class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition">送信</button>
     </div>
-    
     <div class="mb-8">
       <h2 class="text-lg font-semibold mb-2">困りごとリスト</h2>
       <ul id="list" class="list-disc pl-5 text-gray-700 space-y-1">
         <!-- 入力された項目がここに追加される -->
       </ul>
     </div>
-    
     <div class="flex justify-end">
       <button onclick="goToNextPage()" class="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition">確定</button>
     </div>
@@ -32,36 +30,25 @@
       const input = document.getElementById("inputText");
       const list = document.getElementById("list");
       const text = input.value.trim();
+
       if (text) {
         const item = document.createElement("li");
         item.textContent = text;
         list.appendChild(item);
+
+        // ↓ここでlocalStorageに保存
+        const existing = JSON.parse(localStorage.getItem("troubleList")) || [];
+        existing.push(text);
+        localStorage.setItem("troubleList", JSON.stringify(existing));
+
         input.value = "";
       }
     }
 
     function goToNextPage() {
-      window.location.href = "checklist.html"; // 仮のURL。次ページが完成したらここを更新
+      window.location.href = "next.html"; // 仮のURL。次ページが完成したらここを更新
     }
   </script>
 </body>
 </html>
-function addToList() {
-  const input = document.getElementById("inputText");
-  const list = document.getElementById("list");
-  const text = input.value.trim();
-
-  if (text) {
-    const item = document.createElement("li");
-    item.textContent = text;
-    list.appendChild(item);
-
-    // localStorageに保存
-    const existing = JSON.parse(localStorage.getItem("troubleList")) || [];
-    existing.push(text);
-    localStorage.setItem("troubleList", JSON.stringify(existing));
-
-    input.value = "";
-  }
-}
 
