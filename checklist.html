@@ -74,6 +74,7 @@
 
       // 最終ページ用に保存
       localStorage.setItem("troubleWithReasons", JSON.stringify(result));
+      localStorage.removeItem("troubleList");
 
       // 次のページに遷移
       window.location.href = "consider.html";
