@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>困りごとの原因入力</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+  <div class="bg-white w-full max-w-3xl p-6 rounded-2xl shadow-xl border border-black">
+    <h2 class="text-xl font-bold mb-6">困りごとの原因を入力してください</h2>
+    <div id="problemList" class="space-y-6">
+      <!-- JavaScriptでリストがここに追加される -->
+    </div>
+    <div class="flex justify-end mt-8">
+      <button onclick="goToNextPage()" class="bg-green-500 text-white px-6 py-2 rounded-md hover:bg-green-600 transition">確定</button>
+    </div>
+  </div>
+
+  <script>
+    // 仮の困りごとリスト（後で前ページから受け取るように改良可能）
+    const troubles = JSON.parse(localStorage.getItem("troubleList")) || [];
+
+    const problemListContainer = document.getElementById("problemList");
+
+    troubles.forEach((item, index) => {
+      const wrapper = document.createElement("div");
+
+      const checkbox = document.createElement("input");
+      checkbox.type = "checkbox";
+      checkbox.id = `check-${index}`;
+      checkbox.className = "mr-2";
+
+      const label = document.createElement("label");
+      label.htmlFor = `check-${index}`;
+      label.textContent = item;
+      label.className = "text-lg font-medium";
+
+      const reasonWrapper = document.createElement("div");
+      reasonWrapper.className = "mt-2 hidden";
+
+      const reasonLabel = document.createElement("p");
+      reasonLabel.textContent = "原因は何でしょう？";
+      reasonLabel.className = "text-sm text-gray-700 mb-1";
+
+      const reasonInput = document.createElement("input");
+      reasonInput.type = "text";
+      reasonInput.className = "w-full p-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400";
+
+      reasonWrapper.appendChild(reasonLabel);
+      reasonWrapper.appendChild(reasonInput);
+
+      checkbox.addEventListener("change", () => {
+        reasonWrapper.classList.toggle("hidden", !checkbox.checked);
+      });
+
+      wrapper.appendChild(checkbox);
+      wrapper.appendChild(label);
+      wrapper.appendChild(reasonWrapper);
+
+      problemListContainer.appendChild(wrapper);
+    });
+
+    function goToNextPage() {
+      // 必要に応じてデータ収集・保存
+      window.location.href = "final.html"; // 次ページ（仮）
+    }
+  </script>
+</body>
+</html>
+

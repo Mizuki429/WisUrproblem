@@ -41,9 +41,27 @@
     }
 
     function goToNextPage() {
-      window.location.href = "next.html"; // 仮のURL。次ページが完成したらここを更新
+      window.location.href = "checklist.html"; // 仮のURL。次ページが完成したらここを更新
     }
   </script>
 </body>
 </html>
+function addToList() {
+  const input = document.getElementById("inputText");
+  const list = document.getElementById("list");
+  const text = input.value.trim();
+
+  if (text) {
+    const item = document.createElement("li");
+    item.textContent = text;
+    list.appendChild(item);
+
+    // localStorageに保存
+    const existing = JSON.parse(localStorage.getItem("troubleList")) || [];
+    existing.push(text);
+    localStorage.setItem("troubleList", JSON.stringify(existing));
+
+    input.value = "";
+  }
+}
 
