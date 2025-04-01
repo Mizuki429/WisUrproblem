@@ -4,13 +4,20 @@ import requests
 import os
 
 app = Flask(__name__)
-CORS(app, origins=["https://Mizuki429.github.io"])
+CORS(app)  # CORSを全ルートで許可
 
-OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY")  # 環境変数にAPIキーを設定しておくこと
+OPENROUTER_API_KEY = os.environ.get("OPENROUTER_API_KEY")
 MODEL = "anthropic/claude-3-opus"
 
-@app.route("/ask", methods=["POST"])
+@app.route("/", methods=["GET", "OPTIONS"])
+def root():
+    return "API is live", 200
+
+@app.route("/ask", methods=["POST", "OPTIONS"])
 def ask_claude():
+    if request.method == "OPTIONS":
+        return '', 204  # CORSプリフライトへの返答
+
     data = request.get_json()
     trouble = data.get("trouble")
     reason = data.get("reason")
@@ -44,6 +51,6 @@ def ask_claude():
         return jsonify({"error": str(e)}), 500
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # PORT環境変数がなければ5000
+    port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port)
 
